@@ -24,9 +24,9 @@ kadm = kadmin.local();
 It is advised that kadmin_local is used for rapid unpacked iteration, other tasks should be handled by the gssapi connection.
 
 
-##Examples:
+## Examples:
 
-###Principal Creation: 
+### Principal Creation: 
 
 ```python
 >>> 
@@ -41,7 +41,7 @@ It is advised that kadmin_local is used for rapid unpacked iteration, other task
 >>>
 ```
 
-###Principal Attributes:
+### Principal Attributes:
 ```python
 >>> princ = kadm.getprinc("user@EXAMPLE.COM")
 >>>
@@ -105,13 +105,13 @@ It is advised that kadmin_local is used for rapid unpacked iteration, other task
 
 ```
 
-###Change a password:
+### Change a password:
 ```python
 princ = kadm.getprinc("user@EXAMPLE.COM")
 princ.change_password("correcthorsebatterystaple")
 ```
 
-###Iteration:
+### Iteration:
 ```python
 for princ in kadm.principals():
   # princ is a string
