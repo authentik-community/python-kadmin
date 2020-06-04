@@ -3,6 +3,7 @@
 #define PYKADMINXDR_H
 
 #include <krb5.h>
+#include <time.h>
 #include <kdb.h>
 #include <gssrpc/rpc.h>
 

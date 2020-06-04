@@ -4,6 +4,7 @@
 
 #include <Python.h>
 
+#include <time.h>
 #include <kdb.h>
 #include <kadm5/admin.h>
 #include <krb5/krb5.h>
