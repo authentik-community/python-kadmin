@@ -4,27 +4,25 @@ stages:
 
 build:
   stage: build
-  image: python:3.8-alpine
+  image: registry.cri.epita.fr/cri/docker/poetry:3.8
   artifacts:
     paths:
       - dist/*
   before_script:
-    - apk add build-base libffi-dev openssl-dev krb5-dev
-    - pip install poetry
+    - apt-get update
+    - apt-get install -y --no-install-recommends libkrb5-dev
   script:
     - poetry build -n -v
 
 deploy:
   stage: deploy
-  image: python:3.8-alpine
+  image: registry.cri.epita.fr/cri/docker/poetry:3.8
   only:
     - tags
   variables:
     POETRY_HTTP_BASIC_GITLAB_USERNAME: "${PACKAGE_REGISTRY_USERNAME}"
     POETRY_HTTP_BASIC_GITLAB_PASSWORD: "${PACKAGE_REGISTRY_PASSWORD}"
   before_script:
-    - apk add build-base libffi-dev openssl-dev
-    - pip install poetry
     - poetry config repositories.gitlab "https://gitlab.cri.epita.fr/api/v4/projects/${CI_PROJECT_ID}/packages/pypi"
   script:
     - rm -f dist/*.whl
