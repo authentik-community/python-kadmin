@@ -14,6 +14,12 @@ build:
   script:
     - poetry build -n -v
 
+include:
+  - template: SAST.gitlab-ci.yml
+
+sast:
+  stage: build
+
 deploy:
   stage: deploy
   image: registry.cri.epita.fr/cri/docker/poetry:3.8
