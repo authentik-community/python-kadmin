@@ -376,11 +376,11 @@ krb5_error_code pykadmin_kadm_from_kdb(PyKAdminObject *kadmin, krb5_db_entry *kd
             entry->key_data = calloc(entry->n_key_data, sizeof(krb5_key_data));
             if (!entry->key_data)
                 goto done;
+            for (i = 0; i < entry->n_key_data; i++)
+                retval = krb5_copy_key_data_contents(kadmin->context, &kdb->key_data[i], &entry->key_data[i]);
         } else
             entry->key_data = NULL;
 
-            for (i = 0; i < entry->n_key_data; i++)
-                retval = krb5_copy_key_data_contents(kadmin->context, &kdb->key_data[i], &entry->key_data[i]);
         if (retval)
             goto done;
     }
