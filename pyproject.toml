@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "python-kadmin-epita"
-version = "0.1.2"
+version = "0.1.4"
 description = "Python module for kerberos admin (kadm5)"
 license = "MIT"
 authors = ["Russell Jancewicz <russell.jancewicz@gmail.com>"]
