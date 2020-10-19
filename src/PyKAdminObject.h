@@ -12,23 +12,22 @@
 typedef struct {
 	PyObject *callback;
 	PyObject *data;
-    PyObject *error;
-} each_iteration_t; 
+	PyObject *error;
+} each_iteration_t;
 
 typedef struct {
-    PyObject_HEAD
-    
-    uint8_t locked; 
+	PyObject_HEAD
 
-    krb5_context context; 
-    void *server_handle;
-    char *realm;
-    
-    each_iteration_t each_principal;
-    each_iteration_t each_policy;
+	uint8_t locked;
 
-    PyObject *_storage; 
-    
+	krb5_context context;
+	void *server_handle;
+	char *realm;
+
+	each_iteration_t each_principal;
+	each_iteration_t each_policy;
+
+	PyObject *_storage;
 } PyKAdminObject;
 
 extern PyTypeObject PyKAdminObject_Type;
