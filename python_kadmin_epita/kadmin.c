@@ -34,8 +34,8 @@ static struct PyMethodDef module_methods[] = {
     {"init_with_keytab",   (PyCFunction)_kadmin_init_with_keytab,   METH_VARARGS, "init_with_keytab(principal, keytab)"},
     {"init_with_password", (PyCFunction)_kadmin_init_with_password, METH_VARARGS, "init_with_password(principal, password)"},
 
-    /* todo: these should permit the user to set/get the 
-        service, struct, api version, default realm, ... 
+    /* todo: these should permit the user to set/get the
+        service, struct, api version, default realm, ...
     */
     {"get_option",         (PyCFunction)_kadmin_get_option, METH_VARARGS,  "get_option(option)"},
     {"set_option",         (PyCFunction)_kadmin_set_option, METH_VARARGS,  "set_option(option, value)"},
@@ -143,8 +143,8 @@ PyKADMIN_INIT_FUNC {
     Py_INCREF(&PyKAdminObject_Type);
     Py_INCREF(&PyKAdminPrincipalObject_Type);
     Py_INCREF(&PyKAdminPolicyObject_Type);
-            
-    // initialize the errors 
+
+    // initialize the errors
 
     struct module_state *st = GETSTATE(module);
 
@@ -192,7 +192,7 @@ static PyKAdminObject *_kadmin_local(PyObject *self, PyObject *args) {
     int result             = 0;
 
     if (!PyArg_ParseTuple(args, "|O", &py_db_args))
-        return NULL; 
+        return NULL;
 
     kadmin = PyKAdminObject_create();
 
@@ -207,14 +207,14 @@ static PyKAdminObject *_kadmin_local(PyObject *self, PyObject *args) {
     }
 
     retval = kadm5_init_with_password(
-                kadmin->context, 
-                client_name, 
-                NULL, 
-                service_name, 
-                params, 
-                struct_version, 
-                api_version, 
-                db_args, 
+                kadmin->context,
+                client_name,
+                NULL,
+                service_name,
+                params,
+                struct_version,
+                api_version,
+                db_args,
                 &kadmin->server_handle);
 
     if (retval != KADM5_OK) {
@@ -255,7 +255,7 @@ static PyKAdminObject *_kadmin_init_with_ccache(PyObject *self, PyObject *args) 
 
     kadm5_config_params *params = NULL;
 
-    krb5_ccache cc;             
+    krb5_ccache cc;
 
     memset(&cc, 0, sizeof(krb5_ccache));
 
@@ -270,49 +270,48 @@ static PyKAdminObject *_kadmin_init_with_ccache(PyObject *self, PyObject *args) 
 
     if (!ccache_name) {
         code = krb5_cc_default(kadmin->context, &cc);
-        if (code) { 
+        if (code) {
             PyKAdminError_raise_error(code, "krb5_cc_default");
             goto cleanup;
         }
     } else {
         code = krb5_cc_resolve(kadmin->context, ccache_name, &cc);
-        if (code) { 
+        if (code) {
             PyKAdminError_raise_error(code, "krb5_cc_resolve");
             goto cleanup;
         }
-    } 
+    }
 
     _resolved_client = client_name;
 
     if (!_resolved_client) {
         code = krb5_cc_get_principal(kadmin->context, cc, &princ);
-        if (code) { 
+        if (code) {
             PyKAdminError_raise_error(code, "krb5_cc_get_principal");
             goto cleanup;
         }
 
         code = krb5_unparse_name(kadmin->context, princ, &_resolved_client);
-        if (code) { 
+        if (code) {
             PyKAdminError_raise_error(code, "krb5_unparse_name");
             goto cleanup;
         }
     }
-    
+
     retval = kadm5_init_with_creds(
-                kadmin->context, 
-                _resolved_client, 
-                cc, 
-                service_name, 
+                kadmin->context,
+                _resolved_client,
+                cc,
+                service_name,
                 params,
-                struct_version, 
-                api_version, 
-                db_args, 
+                struct_version,
+                api_version,
+                db_args,
                 &kadmin->server_handle);
 
 
 cleanup:
-    
-    // we only clean up _resolved_client if we calculated it, otherwise it is 
+    // we only clean up _resolved_client if we calculated it, otherwise it is
     //  an internal pointer of a python object and freeing it will be illegal.
     if ((client_name == NULL) && _resolved_client)
         free(_resolved_client);
@@ -329,7 +328,7 @@ cleanup:
     }
 
     if (params)
-        free(params);  
+        free(params);
 
     pykadmin_free_db_args(db_args);
 
@@ -364,31 +363,30 @@ static PyKAdminObject *_kadmin_init_with_keytab(PyObject *self, PyObject *args) 
     if (keytab_name == NULL) {
         keytab_name = "/etc/krb5.keytab";
     }
-  
+
     if (client_name == NULL) {
-        
         code = krb5_sname_to_principal(kadmin->context, NULL, "host", KRB5_NT_SRV_HST, &princ);
-        if (code) { 
+        if (code) {
             PyKAdminError_raise_error(code, "krb5_sname_to_principal");
             goto cleanup;
         }
-        
+
         code = krb5_unparse_name(kadmin->context, princ, &client_name);
-        if (code) { 
+        if (code) {
             PyKAdminError_raise_error(code, "krb5_unparse_name");
             goto cleanup;
         }
     }
 
     retval = kadm5_init_with_skey(
-                kadmin->context, 
-                client_name, 
-                keytab_name, 
-                service_name, 
+                kadmin->context,
+                client_name,
+                keytab_name,
+                service_name,
                 params,
-                struct_version, 
-                api_version, 
-                db_args, 
+                struct_version,
+                api_version,
+                db_args,
                 &kadmin->server_handle);
 
     if (retval != KADM5_OK) {
@@ -400,7 +398,6 @@ static PyKAdminObject *_kadmin_init_with_keytab(PyObject *self, PyObject *args) 
     }
 
 cleanup:
-    
     if (princ)
         krb5_free_principal(kadmin->context, princ);
 
@@ -418,7 +415,7 @@ static PyKAdminObject *_kadmin_init_with_password(PyObject *self, PyObject *args
     PyKAdminObject *kadmin = NULL;
     PyObject *py_db_args   = NULL;
     kadm5_ret_t retval     = KADM5_OK;
-    
+
     char *client_name = NULL;
     char *password    = NULL;
     char **db_args    = NULL;
@@ -434,17 +431,17 @@ static PyKAdminObject *_kadmin_init_with_password(PyObject *self, PyObject *args
     db_args = pykadmin_parse_db_args(py_db_args);
 
     retval = kadm5_init_with_password(
-                kadmin->context, 
-                client_name, 
-                password, 
-                service_name, 
-                params, 
-                struct_version, 
-                api_version, 
-                db_args, 
+                kadmin->context,
+                client_name,
+                password,
+                service_name,
+                params,
+                struct_version,
+                api_version,
+                db_args,
                 &kadmin->server_handle);
 
-    if (retval != KADM5_OK) { 
+    if (retval != KADM5_OK) {
 
         Py_XDECREF(kadmin);
         kadmin = NULL;
