@@ -1,4 +1,3 @@
-
 import kadmin
 
 admin = kadmin.init_with_keytab("test/admin", "./test.keytab")
@@ -10,4 +9,3 @@ for princ in iter:
         admin.delprinc(princ)
     except kadmin.KAdminError as error:
         print(error)
-        

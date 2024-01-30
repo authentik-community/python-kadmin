@@ -1,11 +1,14 @@
 [tool.poetry]
-name = "python-kadmin-epita"
+name = "python-kadmin"
 version = "0.1.6"
 description = "Python module for kerberos admin (kadm5)"
 license = "MIT"
 authors = ["Russell Jancewicz <russell.jancewicz@gmail.com>"]
-repository="https://gitlab.cri.epita.fr/cri/packages/python-kadmin-epita"
+repository="https://github.com/authentik-community/python-kadmin"
 readme = "README.md"
+packages = [
+    { include = "kadmin" },
+]
 classifiers=[
     "Development Status :: 4 - Beta",
     "Environment :: Console",
@@ -25,9 +28,10 @@ script = "build.py"
 generate-setup-file = true
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.8,<4"
 
 [tool.poetry.dev-dependencies]
+black = "*"
 pytest = "^5.2"
 
 [build-system]
