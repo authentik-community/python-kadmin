@@ -20,9 +20,6 @@
 .*.swp
 *~
 
-# Generated
-getdate.c
-
 # distutils
 MANIFEST
 dist/
@@ -36,3 +33,9 @@ krb5cc*
 .vagrant
 Vagrantfile
 
+# Python
+*.egg-info
+__pycache__
+setup.py
+
+src/getdate.c
