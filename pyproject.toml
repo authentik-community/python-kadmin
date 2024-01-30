@@ -26,10 +26,14 @@ include = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.8"
 
 [tool.poetry.dev-dependencies]
-pytest = "^5.2"
+black = "*"
+isort = "*"
+# See https://github.com/pythongssapi/k5test/pull/27
+k5test = { git = "https://github.com/rissson/k5test.git", branch = "fix-start-kadmin" }
+pytest = "*"
 
 [tool.poetry.build]
 script = "build.py"

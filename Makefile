@@ -9,6 +9,9 @@ build: src/getdate.c
 install: src/getdate.c
 	poetry install
 
+test: src/getdate.c
+	./test/tests.py
+
 clean:
 	rm -f src/getdate.c
 
