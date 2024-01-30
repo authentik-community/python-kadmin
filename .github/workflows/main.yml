@@ -1,0 +1,30 @@
+---
+name: main
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          pipx install poetry || true
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libkrb5-dev
+      - uses: actions/setup-python@v4
+        with:
+          python-version-file: "pyproject.toml"
+          cache: "poetry"
+      - run: poetry install
+      - run: poetry build -n -v
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
