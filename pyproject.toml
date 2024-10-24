@@ -4,9 +4,9 @@ version = "0.2.0"
 description = "Python module for kerberos admin (kadm5)"
 license = "MIT"
 authors = ["Russell Jancewicz <russell.jancewicz@gmail.com>"]
-repository="https://gitlab.cri.epita.fr/cri/packages/python-kadmin-epita"
+repository = "https://gitlab.cri.epita.fr/cri/packages/python-kadmin-epita"
 readme = "README.md"
-classifiers=[
+classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Console",
     "Intended Audience :: System Administrators",
@@ -21,9 +21,7 @@ classifiers=[
 ]
 
 packages = []
-include = [
-    { path = "src" }
-]
+include = [{ path = "src" }]
 
 [tool.poetry.dependencies]
 python = ">=3.8"
@@ -31,8 +29,7 @@ python = ">=3.8"
 [tool.poetry.dev-dependencies]
 black = "*"
 isort = "*"
-# See https://github.com/pythongssapi/k5test/pull/27
-k5test = { git = "https://github.com/rissson/k5test.git", branch = "fix-start-kadmin" }
+k5test = "*"
 pytest = "*"
 
 [tool.poetry.build]
