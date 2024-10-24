@@ -7,7 +7,8 @@ extensions = [
     Extension(
         "kadmin",
         libraries=["krb5", "kadm5clnt", "kdb5"],
-        include_dirs=["/usr/include/", "/usr/include/et/"],
+        library_dirs=["/opt/homebrew/opt/krb5/lib"],
+        include_dirs=["/usr/include/", "/usr/include/et/", "/opt/homebrew/opt/krb5/include"],
         sources=[
             "src/kadmin.c",
             "src/PyKAdminErrors.c",
@@ -19,11 +20,13 @@ extensions = [
             "src/PyKAdminXDR.c",
             "src/getdate.c",
         ],
+        extra_compile_args=["-std=c18"],
     ),
     Extension(
         "kadmin_local",
         libraries=["krb5", "kadm5srv", "kdb5"],
-        include_dirs=["/usr/include/", "/usr/include/et/"],
+        library_dirs=["/opt/homebrew/opt/krb5/lib"],
+        include_dirs=["/usr/include/", "/usr/include/et/", "/opt/homebrew/opt/krb5/include"],
         sources=[
             "src/kadmin.c",
             "src/PyKAdminErrors.c",
@@ -35,6 +38,7 @@ extensions = [
             "src/PyKAdminXDR.c",
             "src/getdate.c",
         ],
+        extra_compile_args=["-std=c18"],
         define_macros=[("KADMIN_LOCAL", "")],
     ),
 ]
